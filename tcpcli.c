@@ -56,8 +56,15 @@ main(int argc, char **argv)
     if (connect(sockfd, (SA *) &servaddr, sizeof(servaddr)) < 0)
         err_sys("connect error"); 
 
+        /* Loop receives data from the server and prints it
+         
+        n > 0 - Datr was received thus continue
+        c == 0 - Server closed the connection, stop...
+        n < 0 - read error 
+        */
     while ( (n = read(sockfd, recvline, MAXLINE)) > 0) {
         recvline[n] = 0; 
+        /* Tries to print the data */
         if (fputs(recvline, stdout) == EOF)
             err_sys("fputs error"); 
     }
